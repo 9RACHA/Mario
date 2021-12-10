@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Movimiento : MonoBehaviour
 {
+    private float aceleracionFrenada = 7.0f; //Valor absoluto de la aceleracion aplicada a Mario para frenar
     private float fuerzaSalto = 6.5f;
-    private float speed = 5f;
+    private float speed = 3f; //Valor absoluto de la velocidad a la que se mueve Mario
+
+    private float actualSpeed; //Velocidad actual de Mario, depende si esta frenando o moviendo
     Animator animator; //Declarar animator
     private Rigidbody2D rb;
+
+    private bool frenando; //Mientras frenas, mario no responde a izq o der
 
     // Start is called before the first frame update
     void Start()
@@ -20,22 +25,48 @@ public class Movimiento : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("Camina", false);
+        //animator.SetBool("Camina", false);
         //Transform para usarlo hay que acceder a la variabble que hereda de la clase mono beheavour
-        if(Input.GetKey(KeyCode.LeftArrow)) { //Si pulso la tecla izquierda
-            transform.Translate(Vector3.left * speed * Time.deltaTime);     //Mediante translate lleva al punto de movimiento 
+        if( ! frenando && Input.GetKey(KeyCode.LeftArrow) && actualSpeed <= 0) { //Si pulso la tecla izquierda
+            // Si Mario se mueve hacia la izquierda, su velocidad sera speed, pero sin signo negativo
+            actualSpeed = -speed;
             animator.SetBool("Camina", true); //Al ser V o F 
             transform.localScale = new Vector3(1, 1, 1); // Mira a la izquierda
             
-        } else if(Input.GetKey(KeyCode.RightArrow)) {
+        } else if( ! frenando && Input.GetKey(KeyCode.RightArrow) && actualSpeed >= 0) {
             transform.Translate(Vector3.right * speed * Time.deltaTime);
             animator.SetBool("Camina", true);
             transform.localScale = new Vector3(-1, 1, 1); // Mira a la derecha xq la animacion de Mario estaba hacia la izquierda
 
-        } if (Input.GetKeyDown(KeyCode.Space)){
+        }else if (actualSpeed != 0){
+
+            frenando = true;
+            
+            animator.SetBool("Frenar", true);
+            animator.SetBool("Camina", false);
+             if(actualSpeed > 0) {
+                 actualSpeed -= aceleracionFrenada * Time.deltaTime;
+             } else
+             {
+                 actualSpeed += aceleracionFrenada * Time.deltaTime;
+             }
+             if (Mathf.Abs(actualSpeed) < 0.01f) {
+                 frenando = false;
+                 animator.SetBool("Frenar", false);
+                 actualSpeed = 0;
+             }
+             Debug.Log(actualSpeed);
+            
+        
+
+        transform.Translate(Vector3.left * speed * Time.deltaTime);     //Mediante translate lleva al punto de movimiento 
+        
+         if (Input.GetKeyDown(KeyCode.Space)){
             rb.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
         
           
         }
+        
     }
+}
 }
