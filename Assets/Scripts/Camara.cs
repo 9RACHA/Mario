@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Camara : MonoBehaviour
 {
-    
-    
     //Referencia al objeto que debe seguir la camara;
     public Transform player;
 
@@ -18,9 +16,7 @@ public class Camara : MonoBehaviour
         if (player == null)
         {
             Debug.Log("Camara: la variable player no esta inicializada");
-        }
-
-       
+        } 
     }
 
     // Update is called once per frame

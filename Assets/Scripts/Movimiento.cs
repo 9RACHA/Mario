@@ -12,19 +12,31 @@ public class Movimiento : MonoBehaviour
     Animator animator; //Declarar animator
     private Rigidbody2D rb;
 
-    private bool frenando; //Mientras frenas, mario no responde a izq o der
+    //Colisionador
+    Collider2D collider;
 
+    private bool frenando = false; //Mientras frenas, mario no responde a izq o der
+
+    //Establece unn periodo incial de cada salto
+    private bool comienzoSalto;
     // Start is called before the first frame update
     void Start()
     {
         //GetComponent muy polivalente
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+       // collider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isGrounded()) {
+            animator.SetBool("Salto", false);
+            Debug.Log("Finaliza salto");
+         } else {
+                Debug.Log("En el salto");
+            }
         //animator.SetBool("Camina", false);
         //Transform para usarlo hay que acceder a la variabble que hereda de la clase mono beheavour
         if( ! frenando && Input.GetKey(KeyCode.LeftArrow) && actualSpeed <= 0) { //Si pulso la tecla izquierda
@@ -34,7 +46,9 @@ public class Movimiento : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1); // Mira a la izquierda
             
         } else if( ! frenando && Input.GetKey(KeyCode.RightArrow) && actualSpeed >= 0) {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            actualSpeed = speed;
+
+            //transform.Translate(Vector3.right * speed * Time.deltaTime);
             animator.SetBool("Camina", true);
             transform.localScale = new Vector3(-1, 1, 1); // Mira a la derecha xq la animacion de Mario estaba hacia la izquierda
 
@@ -44,10 +58,10 @@ public class Movimiento : MonoBehaviour
             
             animator.SetBool("Frenar", true);
             animator.SetBool("Camina", false);
+
              if(actualSpeed > 0) {
                  actualSpeed -= aceleracionFrenada * Time.deltaTime;
-             } else
-             {
+             } else {
                  actualSpeed += aceleracionFrenada * Time.deltaTime;
              }
              if (Mathf.Abs(actualSpeed) < 0.01f) {
@@ -56,6 +70,7 @@ public class Movimiento : MonoBehaviour
                  actualSpeed = 0;
              }
              Debug.Log(actualSpeed);
+        }
             
         
 
@@ -63,10 +78,24 @@ public class Movimiento : MonoBehaviour
         
          if (Input.GetKeyDown(KeyCode.Space)){
             rb.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
-        
-          
+            animator.SetBool("Salto", true);
+            comienzoSalto = true;
+            Invoke("finalizarComienzoSalto", 0.2f);
+
+            Debug.Log("Comienza el salto");
+        }  
+    }
+
+    private void finalizarComienzoSalto(){
+        comienzoSalto = false;
+    }
+    private bool isGrounded() {
+        if (comienzoSalto) {
+            return false;
         }
         
+       return collider.IsTouchingLayers();
+
     }
 }
-}
+

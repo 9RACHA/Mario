@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 601960100}
   - component: {fileID: 601960102}
   - component: {fileID: 601960101}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Plataforma 3 Der '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 932467064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataformas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 1173779279}
   - component: {fileID: 1173779281}
   - component: {fileID: 1173779280}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforma 6  Arriba Izq
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 1224221618}
   - component: {fileID: 1224221620}
   - component: {fileID: 1224221619}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforma 5  Centro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 1291182290}
   - component: {fileID: 1291182292}
   - component: {fileID: 1291182291}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Plataforma 4 Izq '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -816,7 +816,7 @@ GameObject:
   - component: {fileID: 1324773913}
   - component: {fileID: 1324773915}
   - component: {fileID: 1324773914}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforma 1 Izq
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1034,7 +1034,7 @@ GameObject:
   - component: {fileID: 1813748261}
   - component: {fileID: 1813748260}
   - component: {fileID: 1813748262}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Suelo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1379,7 +1379,7 @@ GameObject:
   - component: {fileID: 1985451894}
   - component: {fileID: 1985451896}
   - component: {fileID: 1985451895}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforma 2 Der
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1488,7 +1488,7 @@ GameObject:
   - component: {fileID: 1995420611}
   - component: {fileID: 1995420613}
   - component: {fileID: 1995420612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plataforma 7  Arriba Der
   m_TagString: Untagged
   m_Icon: {fileID: 0}
