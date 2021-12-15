@@ -93,9 +93,19 @@ public class Movimiento : MonoBehaviour
         if (comienzoSalto) {
             return false;
         }
-        
-       return collider.IsTouchingLayers();
 
+        bool isGrounded = false;
+        
+    LayerMask mask = LayerMask.GetMask("Plataformas");
+       if (collider.IsTouchingLayers(mask)) {
+           ContactPoint2D[] puntosContacto = new ContactPoint2D[5];
+           int numeroPuntos = collider.GetContacts(puntosContacto);
+
+           if (numeroPuntos == 1) {
+              Debug.Log(puntosContacto[0].point.y) 
+           }
+
+        }
     }
 }
 
