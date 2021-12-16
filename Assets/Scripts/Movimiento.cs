@@ -25,7 +25,7 @@ public class Movimiento : MonoBehaviour
         //GetComponent muy polivalente
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-       // collider = GetComponent<Collider2D>();
+        collider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -34,9 +34,10 @@ public class Movimiento : MonoBehaviour
         if (isGrounded()) {
             animator.SetBool("Salto", false);
             Debug.Log("Finaliza salto");
-         } else {
+         } else if(animator.GetBool("Salto")){
                 Debug.Log("En el salto");
             }
+            
         //animator.SetBool("Camina", false);
         //Transform para usarlo hay que acceder a la variabble que hereda de la clase mono beheavour
         if( ! frenando && Input.GetKey(KeyCode.LeftArrow) && actualSpeed <= 0) { //Si pulso la tecla izquierda
@@ -74,7 +75,7 @@ public class Movimiento : MonoBehaviour
             
         
 
-        transform.Translate(Vector3.left * speed * Time.deltaTime);     //Mediante translate lleva al punto de movimiento 
+        transform.Translate(Vector3.up * speed * Time.deltaTime);     //Mediante translate lleva al punto de movimiento 
         
          if (Input.GetKeyDown(KeyCode.Space)){
             rb.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
@@ -90,7 +91,7 @@ public class Movimiento : MonoBehaviour
         comienzoSalto = false;
     }
     private bool isGrounded() {
-        if (comienzoSalto) {
+        if(comienzoSalto) {
             return false;
         }
 
@@ -102,10 +103,25 @@ public class Movimiento : MonoBehaviour
            int numeroPuntos = collider.GetContacts(puntosContacto);
 
            if (numeroPuntos == 1) {
-              Debug.Log(puntosContacto[0].point.y) 
-           }
+            //El punto de contacto tiene las coordendas referidas al mundo.
+                 //Las transformamos al sistema de referencia local de Mario                 
+                 Vector3 puntoContactoLocal = transform.InverseTransformPoint(new Vector3(puntosContacto[0].point.x, puntosContacto[0].point.y, 0));
 
-        }
+                 //Comprobamos que el punto de contacto esté en la parte de los pies de Mario
+                 // y tambien que esté cerca del ceotro vertical, para evitar que los roces con 
+                 // las esquinas de las plataformas durante los saltos se confundan con llegar al suelo
+                 if(puntoContactoLocal.y < -0.5f && Mathf.Abs(puntoContactoLocal.x) < 0.02f) {
+                     isGrounded = true;
+                 }
+                 //Debug.Log("isGrounded() y: " + puntoContactoLocal.y);
+             } else {
+                 Debug.Log("isGrounded() numeroPuntosContacto: " + numeroPuntos);
+             }
+             
+         }
+
+         return isGrounded;
+        
     }
 }
 
